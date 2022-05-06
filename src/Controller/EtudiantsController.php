@@ -49,7 +49,6 @@ class EtudiantsController extends AbstractController
     public function delete(Request$request, Etudiant $etudiant): Response
     {
         $this->manager->remove($etudiant);
-        $this->manager->persist();
         $this->manager->flush();
         return $this->render('etudiants/index.html.twig');
 
