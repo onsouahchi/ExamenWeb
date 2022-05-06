@@ -30,7 +30,7 @@
                 <td>{%if p.section%}{{ p.section.designation }}
                 {%else%} Etudiant non encore affecté à une section
                     {%endif%}</td>
-                <td><a href="{{path("add_etudiants", p.id)}}">Edit</a> <a href="{{path("delete_etudiant")}}">delete</a> </td>
+                <td><a href="{{path("add_etudiants", {"id":p.id})}}">Edit</a> <a href="{{path("delete_etudiant", {"id":p.id})}}">delete</a> </td>
             </tr>
         {%endfor%}
         </tbody>

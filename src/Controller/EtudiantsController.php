@@ -29,14 +29,14 @@ class EtudiantsController extends AbstractController
         ]);
     }
 
-    #[Route('/etudiants/add/{id?0}', name: 'add_etudiants')]
-    public function add(Request$request,$etudiant): Response
+    #[Route('/etudiants/{id?0}', name: 'add_etudiants')]
+    public function add(Etudiant $etudiant, Request $request): Response
     {
-        if (!$etudiant) $personne = new Etudiant();
-        $form = $this->createForm(EtudiantType::class,$personne);
+        if (!$etudiant) $etudiant = new Etudiant();
+        $form = $this->createForm(EtudiantType::class,$etudiant);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $this->manager->persist($personne);
+            $this->manager->persist($etudiant);
             $this->manager->flush();
             return $this->redirectToRoute('app_etudiants');
         }
@@ -46,11 +46,11 @@ class EtudiantsController extends AbstractController
     }
 
     #[Route('/etudiants/delete/{id}', name: 'delete_etudiant')]
-    public function delete(Request$request, Etudiant $etudiant): Response
+    public function delete(Etudiant $etudiant): Response
     {
         $this->manager->remove($etudiant);
         $this->manager->flush();
-        return $this->render('etudiants/index.html.twig');
+        return $this->redirectToRoute('app_etudiants');
 
     }
 }
