@@ -69,7 +69,13 @@ class Section
                 $etudiant->setSection(null);
             }
         }
-
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->getDesignation();
+    }
+
+
 }

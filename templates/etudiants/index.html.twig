@@ -13,18 +13,19 @@
 
     <a href="{{path("add_etudiants")}}"> Ajouter des Etudiants</a>
 
-    <table class="table table-striped">
+    <table class="table">
         <thead>
         <tr>
             <th scope="col">First name</th>
             <th scope="col">name</th>
-            <th scope="col">section</th>
-            <th scope="col">Action</th>
+            <th scope="col">Section</th>
+            <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
+        {% set colors=["primary", "danger", "secondary", "success", "warning", "info"]%}
         {%for p in list%}
-            <tr>
+            <tr class="table-{{ colors[loop.index%6] }}">
                 <td>{{ p.prenom }}</td>
                 <td>{{ p.nom }}</td>
                 <td>{%if p.section%}{{ p.section.designation }}
@@ -37,3 +38,14 @@
     </table>
 </div>
 {% endblock %}
+
+{% block javascripts %}
+{{  parent() }}
+    <script rel="script" src="{{asset("script.js")}}"></script>
+{% endblock %}
+
+{% block stylesheets%}
+{{ parent() }}
+<link rel="stylesheet" href="{{asset('style.css')}}">
+{% endblock %}
+

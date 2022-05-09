@@ -29,15 +29,20 @@ class EtudiantsController extends AbstractController
         ]);
     }
 
-    #[Route('/etudiants/{id?0}', name: 'add_etudiants')]
-    public function add(Etudiant $etudiant, Request $request): Response
+    #[Route('/etudiants_add/{id?0}', name: 'add_etudiants')]
+    public function add(Request $request, Etudiant $etudiant= null): Response
     {
-        if (!$etudiant) $etudiant = new Etudiant();
+        if (!$etudiant) {
+            $etudiant = new Etudiant();
+            $new =true;
+        } else $new=false;
         $form = $this->createForm(EtudiantType::class,$etudiant);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $this->manager->persist($etudiant);
             $this->manager->flush();
+            if ($new) $this->addFlash("success", "Etudiant ajouté");
+            else $this->addFlash("success", "Etudiant modifié");
             return $this->redirectToRoute('app_etudiants');
         }
 
@@ -45,11 +50,12 @@ class EtudiantsController extends AbstractController
 
     }
 
-    #[Route('/etudiants/delete/{id}', name: 'delete_etudiant')]
+    #[Route('/etudiants_delete/{id}', name: 'delete_etudiant')]
     public function delete(Etudiant $etudiant): Response
     {
         $this->manager->remove($etudiant);
         $this->manager->flush();
+        $this->addFlash("success", "Etudiant supprimé");
         return $this->redirectToRoute('app_etudiants');
 
     }
